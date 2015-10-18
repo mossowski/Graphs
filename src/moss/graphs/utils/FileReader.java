@@ -43,7 +43,7 @@ public class FileReader {
 	}
 
 	// ----------------------------------------------------------------------
-	
+
 	public int checkSize() {
 
 		int i = 0;

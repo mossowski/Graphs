@@ -37,6 +37,10 @@ public class Application {
 		System.out.print("Sorted by degree : ");
 		for (int i = 0; i < sortedDegrees.length; i++)
 			System.out.print(sortedDegrees[i] + " ");
+
+		int[][] multiplyMatrix = aMatrix.multiplyMatrix();
+		aMatrix.printMatrix(multiplyMatrix);
+
 	}
 
 }

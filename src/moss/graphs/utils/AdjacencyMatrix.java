@@ -14,18 +14,6 @@ public class AdjacencyMatrix {
 
 	// ----------------------------------------------------------------------
 
-	public void printMatrix() {
-		for (int i = 0; i < matrix.length; i++) {
-			for (int j = 0; j < matrix[i].length; j++) {
-				System.out.print(matrix[i][j] + " ");
-			}
-			System.out.println("");
-		}
-		System.out.println("");
-	}
-
-	// ----------------------------------------------------------------------
-
 	public void addVertex() {
 		int size = matrix.length + 1;
 		int[][] result = new int[size][size];
@@ -115,10 +103,44 @@ public class AdjacencyMatrix {
 		return degrees;
 	}
 
-	// --------------------------------------------------------------------------
+	// ----------------------------------------------------------------------
 
-	public int[] sortByX(int[] aData) {
-		Arrays.sort(aData);
-		return aData;
+	public int[][] multiplyMatrix() {
+		int[][] resultMatrix = new int[matrix.length][matrix.length];
+
+		for (int i = 0; i < matrix.length; i++) {
+			for (int j = 0; j < matrix.length; j++) {
+				for (int k = 0; k < matrix.length; k++) {
+					resultMatrix[i][j] += matrix[i][k] * matrix[k][j];
+				}
+			}
+		}
+
+		return resultMatrix;
+	}
+
+	// ----------------------------------------------------------------------
+
+	public void printMatrix() {
+		for (int i = 0; i < matrix.length; i++) {
+			for (int j = 0; j < matrix[i].length; j++) {
+				System.out.print(matrix[i][j] + " ");
+			}
+			System.out.println("");
+		}
+		System.out.println("");
+	}
+
+	// ----------------------------------------------------------------------
+
+	public void printMatrix(int[][] aMatrix) {
+		System.out.println("\n\nMultiply matrix");
+		for (int i = 0; i < aMatrix.length; i++) {
+			for (int j = 0; j < aMatrix[i].length; j++) {
+				System.out.print(aMatrix[i][j] + " ");
+			}
+			System.out.println("");
+		}
+		System.out.println("");
 	}
 }
