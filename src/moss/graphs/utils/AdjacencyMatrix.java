@@ -37,6 +37,41 @@ public class AdjacencyMatrix {
 
 	// ----------------------------------------------------------------------
 
+	public void removeVertex(int vertex) {
+		int size = matrix.length - 1;
+		int[][] result = new int[size][size];
+
+		int removedI = 0;
+		for (int i = 0; i < result.length; i++) {
+			int removedJ = 0;
+			for (int j = 0; j < result.length; j++) {
+				if (i != vertex && j != vertex)
+					result[i][j] = matrix[i + removedI][j + removedJ];
+				else if (i != vertex) {
+					result[i][j] = matrix[i + removedI][j + 1];
+					removedJ = 1;
+				} else if (j != vertex) {
+					result[i][j] = matrix[i + 1][j + removedJ];
+					removedI = 1;
+				} else {
+					result[i][j] = matrix[i + 1][j + 1];
+					removedJ = 1;
+					removedI = 1;
+				}
+			}
+		}
+		matrix = result;
+	}
+
+	// ----------------------------------------------------------------------
+
+	public void removeEdge(int firstVertex, int secondVertex) {
+		matrix[firstVertex][secondVertex] = 0;
+		matrix[secondVertex][firstVertex] = 0;
+	}
+
+	// ----------------------------------------------------------------------
+
 	public int countVertexDegree(int vertex) {
 		int degree = 0;
 
