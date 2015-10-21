@@ -92,6 +92,8 @@ public class Application {
 
 		fReader.loadData();
 		aMatrix.printMatrix();
+		
+		aMatrix.hasCycle();
 
 		aMatrix.removeVertex(0);
 
@@ -116,9 +118,9 @@ public class Application {
 		System.out.print("Sorted by degree : ");
 		for (int i = 0; i < sortedDegrees.length; i++)
 			System.out.print(sortedDegrees[i] + " ");
-
-		int[][] multiplyMatrix = aMatrix.multiplyMatrix();
-		aMatrix.printMatrix(multiplyMatrix);
+		System.out.println();
+		//int[][] multiplyMatrix = aMatrix.multiplyMatrix();
+		
 
 		Integer[] sequence = { 5, 4, 2, 2, 6, 3, 2, 2 };
 

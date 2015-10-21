@@ -137,6 +137,32 @@ public class AdjacencyMatrix {
 		Arrays.sort(degrees);
 		return degrees;
 	}
+	
+	// ----------------------------------------------------------------------
+
+		public int hasCycle() {
+			
+			for (int i = 0; i < matrix.length; i++) {
+				int connectedVertexes[] = new int[matrix.length - 1];
+				int index = 0;
+				for (int j = 1; j < matrix.length; j++) {
+					if (matrix[i][j] == 1) {
+						connectedVertexes[index] = j; 
+						index++;
+					}
+				}
+				for (int k = 0; k < index; k++) {
+					for (int l = k + 1; l < index; l++)
+					if (matrix[connectedVertexes[k]][connectedVertexes[l]] == 1) {
+						System.out.println("Graf ma cykl : " + matrix[i][0] + " " + connectedVertexes[k] + " " + connectedVertexes[l]);
+						return 1;
+					}
+				}
+			}
+
+			System.out.println("Graf nie ma cyklu!");
+			return 0;
+		}
 
 	// ----------------------------------------------------------------------
 
