@@ -177,18 +177,13 @@ public class AdjacencyMatrix {
 			int index = 1;
 			
 			while (hasChanges) {
-				int[] neighbours = findNeighbours(matrix[currentVertex]);
+				int[] neighbours = findNeighbours(matrix[currentVertex], sequence, index);
 				
 				if (neighbours.length > 0) {
 					currentVertex = neighbours[random.nextInt(neighbours.length)];
 								
-					if (!(contain(sequence, currentVertex))) {
-						sequence[index] = currentVertex;
-						index++;
-					}
-					else {
-						hasChanges = false;
-					}
+					sequence[index] = currentVertex;
+					index++;
 				}
 				else {
 					hasChanges = false;
@@ -196,32 +191,44 @@ public class AdjacencyMatrix {
 			}
 			
 			for (int i = 0; i < sequence.length; i++) {
-				if (matrix[sequence[i]][sequence[currentVertex]] == 1) {
+				if (matrix[sequence[i]][currentVertex] == 1) {
 					sequence[index] = sequence[i];
+					break;
 				}
 			}
 			
-			return sequence;
+			int[] result = new int[index+1];
+			for (int i = 0; i < result.length; i++) {
+				result[i] = sequence[i];
+			}
+			
+			return result;
 		}
 
 	// ----------------------------------------------------------------------
 		
-		public int[] findNeighbours(int[] array) {
+		public int[] findNeighbours(int[] array, int[] sequence, int size) {
 			int[] neighbours = new int[array.length-1];
 			int index = 0;
 			for (int i = 0; i < array.length; i++) {
-				if (array[i] == 1) {
+				if ((array[i] == 1) && !(contain(sequence, i, size))) {
 					neighbours[index] = i;
 					index++;
 				}
 			}
-			return neighbours;
+			
+			int[] result = new int[index];
+			for (int i = 0; i < result.length; i++) {
+				result[i] = neighbours[i];
+			}
+			
+			return result;
 		}
 		
 	// ----------------------------------------------------------------------
 		
-		public boolean contain(int[] array, int element) {
-			for (int i = 0; i < array.length; i++) {
+		public boolean contain(int[] array, int element, int size) {
+			for (int i = 0; i < size; i++) {
 				if (array[i] == element) {
 					return true;
 				}

@@ -125,7 +125,24 @@ public class Application {
 		Integer[] sequence = { 5, 4, 2, 2, 6, 3, 2, 2 };
 
 		isGraphic(sequence);
+		
+		
+		//------------------------------
+		
+		String fn = "matrix2.txt";
+		FileReader fr = new FileReader(fn);
 
+		int s = fr.checkSize();
+
+		AdjacencyMatrix matrix = new AdjacencyMatrix(s);
+
+		fr.loadData();
+		matrix.printMatrix();
+		int[] seq = matrix.searchCycle();
+		
+		for (int i = 0; i < seq.length; i++)
+			System.out.print(seq[i] + " ");
+		System.out.println();
 	}
 
 }
