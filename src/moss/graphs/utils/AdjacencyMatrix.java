@@ -1,6 +1,7 @@
 package moss.graphs.utils;
 
 import java.util.Arrays;
+import java.util.Random;
 
 public class AdjacencyMatrix {
 
@@ -163,7 +164,71 @@ public class AdjacencyMatrix {
 			System.out.println("Graf nie ma cyklu!");
 			return 0;
 		}
+		
+	// ----------------------------------------------------------------------
 
+		public int[] searchCycle() {
+			int[] sequence = new int[matrix.length + 1]; 
+			Random random = new Random();
+			int currentVertex = random.nextInt(matrix.length);
+			
+			sequence[0] = currentVertex;
+			boolean hasChanges = true;
+			int index = 1;
+			
+			while (hasChanges) {
+				int[] neighbours = findNeighbours(matrix[currentVertex]);
+				
+				if (neighbours.length > 0) {
+					currentVertex = neighbours[random.nextInt(neighbours.length)];
+								
+					if (!(contain(sequence, currentVertex))) {
+						sequence[index] = currentVertex;
+						index++;
+					}
+					else {
+						hasChanges = false;
+					}
+				}
+				else {
+					hasChanges = false;
+				}
+			}
+			
+			for (int i = 0; i < sequence.length; i++) {
+				if (matrix[sequence[i]][sequence[currentVertex]] == 1) {
+					sequence[index] = sequence[i];
+				}
+			}
+			
+			return sequence;
+		}
+
+	// ----------------------------------------------------------------------
+		
+		public int[] findNeighbours(int[] array) {
+			int[] neighbours = new int[array.length-1];
+			int index = 0;
+			for (int i = 0; i < array.length; i++) {
+				if (array[i] == 1) {
+					neighbours[index] = i;
+					index++;
+				}
+			}
+			return neighbours;
+		}
+		
+	// ----------------------------------------------------------------------
+		
+		public boolean contain(int[] array, int element) {
+			for (int i = 0; i < array.length; i++) {
+				if (array[i] == element) {
+					return true;
+				}
+			}
+			return false;
+		}
+		
 	// ----------------------------------------------------------------------
 
 	public int[][] multiplyMatrix() {
@@ -204,4 +269,5 @@ public class AdjacencyMatrix {
 		}
 		System.out.println("");
 	}
+	
 }
