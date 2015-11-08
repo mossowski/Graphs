@@ -17,5 +17,13 @@ public class Edge {
 		next = aNext;
 		previous = aPrevious;
 	}
+	
+	public Vertex getBeginning() {
+		return beginning;
+	}
+	
+	public Edge getTwin() {
+		return twin;
+	}
 
 }

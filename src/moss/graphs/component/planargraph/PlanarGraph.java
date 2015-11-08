@@ -31,5 +31,22 @@ public class PlanarGraph {
 	public void addWall(Wall aWall) {
 		walls.add(aWall);
 	}
+	
+	/**
+	 * Return neighbors vertexes to specified vertex
+	 * @param aVertex
+	 * @return
+	 */
+	public ArrayList<Vertex> findNeighborVertexs(Vertex aVertex) {
+		ArrayList<Vertex> neighbors = new ArrayList<Vertex>();
+
+		for (Edge currentEdge : edges) {
+			if (currentEdge.getBeginning() == aVertex) {
+				Vertex neighborVertex = currentEdge.getTwin().getBeginning();
+				neighbors.add(neighborVertex);
+			}
+		}
+		return neighbors;
+	}
 
 }
