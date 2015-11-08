@@ -2,12 +2,15 @@ package moss.graphs.component.planargraph;
 
 public class Vertex {
 
-	private int x;
-	private int y;
+	private String name;
+	private int[] coordinates = new int[2];
 	private Edge incidentEdge;
 
-	public Vertex(int aX, int aY) {
-		x = aX;
-		y = aY;
+	public Vertex(String aName, int aX, int aY, Edge aIncidentEdge) {
+		name = aName;
+		coordinates[0] = aX;
+		coordinates[1] = aY;
+		incidentEdge = aIncidentEdge;
 	}
+
 }
