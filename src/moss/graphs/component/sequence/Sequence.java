@@ -1,4 +1,4 @@
-package moss.graphs.utils;
+package moss.graphs.component.sequence;
 
 import java.util.Arrays;
 import java.util.Collections;

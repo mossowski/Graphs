@@ -1,4 +1,4 @@
-package moss.graphs.utils;
+package moss.graphs.component.adjacencymatrix;
 
 import java.util.Arrays;
 import java.util.Random;

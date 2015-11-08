@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
+import moss.graphs.component.adjacencymatrix.AdjacencyMatrix;
+
 public class FileReader {
 
 	private Scanner fileScanner;
