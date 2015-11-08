@@ -73,6 +73,15 @@ public class AdjacencyMatrix {
 
 	// ----------------------------------------------------------------------
 
+	public void removeEdge(int vertex) {
+		for (int i = 0; i < matrix.length; i++) {
+			matrix[vertex][i] = 0;
+			matrix[i][vertex] = 0;
+		}
+	}
+
+	// ----------------------------------------------------------------------
+
 	public int countVertexDegree(int vertex) {
 		int degree = 0;
 
@@ -138,104 +147,139 @@ public class AdjacencyMatrix {
 		Arrays.sort(degrees);
 		return degrees;
 	}
-	
+
 	// ----------------------------------------------------------------------
 
-		public int hasCycle() {
-			
-			for (int i = 0; i < matrix.length; i++) {
-				int connectedVertexes[] = new int[matrix.length - 1];
-				int index = 0;
-				for (int j = 1; j < matrix.length; j++) {
-					if (matrix[i][j] == 1) {
-						connectedVertexes[index] = j; 
-						index++;
-					}
+	public int hasCycle() {
+
+		for (int i = 0; i < matrix.length; i++) {
+			int connectedVertexes[] = new int[matrix.length - 1];
+			int index = 0;
+			for (int j = 1; j < matrix.length; j++) {
+				if (matrix[i][j] == 1) {
+					connectedVertexes[index] = j;
+					index++;
 				}
-				for (int k = 0; k < index; k++) {
-					for (int l = k + 1; l < index; l++)
+			}
+			for (int k = 0; k < index; k++) {
+				for (int l = k + 1; l < index; l++)
 					if (matrix[connectedVertexes[k]][connectedVertexes[l]] == 1) {
 						System.out.println("Graf ma cykl : " + matrix[i][0] + " " + connectedVertexes[k] + " " + connectedVertexes[l]);
 						return 1;
 					}
-				}
 			}
-
-			System.out.println("Graf nie ma cyklu!");
-			return 0;
-		}
-		
-	// ----------------------------------------------------------------------
-
-		public int[] searchCycle() {
-			int[] sequence = new int[matrix.length + 1]; 
-			Random random = new Random();
-			int currentVertex = random.nextInt(matrix.length);
-			
-			sequence[0] = currentVertex;
-			boolean hasChanges = true;
-			int index = 1;
-			
-			while (hasChanges) {
-				int[] neighbours = findNeighbours(matrix[currentVertex], sequence, index);
-				
-				if (neighbours.length > 0) {
-					currentVertex = neighbours[random.nextInt(neighbours.length)];
-								
-					sequence[index] = currentVertex;
-					index++;
-				}
-				else {
-					hasChanges = false;
-				}
-			}
-			
-			for (int i = 0; i < sequence.length; i++) {
-				if (matrix[sequence[i]][currentVertex] == 1) {
-					sequence[index] = sequence[i];
-					break;
-				}
-			}
-			
-			int[] result = new int[index+1];
-			for (int i = 0; i < result.length; i++) {
-				result[i] = sequence[i];
-			}
-			
-			return result;
 		}
 
+		System.out.println("Graf nie ma cyklu!");
+		return 0;
+	}
+
 	// ----------------------------------------------------------------------
-		
-		public int[] findNeighbours(int[] array, int[] sequence, int size) {
-			int[] neighbours = new int[array.length-1];
+
+	public int[] searchCycle() {
+		int[] sequence = new int[matrix.length + 1];
+		Random random = new Random();
+		int currentVertex = random.nextInt(matrix.length);
+
+		sequence[0] = currentVertex;
+		boolean hasChanges = true;
+		int index = 1;
+
+		while (hasChanges) {
+			int[] neighbours = findNeighbours(matrix[currentVertex], sequence, index);
+
+			if (neighbours.length > 0) {
+				currentVertex = neighbours[random.nextInt(neighbours.length)];
+
+				sequence[index] = currentVertex;
+				index++;
+			} else {
+				hasChanges = false;
+			}
+		}
+
+		for (int i = 0; i < sequence.length; i++) {
+			if (matrix[sequence[i]][currentVertex] == 1) {
+				sequence[index] = sequence[i];
+				break;
+			}
+		}
+
+		int[] result = new int[index + 1];
+		for (int i = 0; i < result.length; i++) {
+			result[i] = sequence[i];
+		}
+
+		return result;
+	}
+
+	// ----------------------------------------------------------------------
+
+	public int[] findNeighbours(int[] array, int[] sequence, int size) {
+		int[] neighbours = new int[array.length - 1];
+		int index = 0;
+		for (int i = 0; i < array.length; i++) {
+			if ((array[i] == 1) && !(contain(sequence, i, size))) {
+				neighbours[index] = i;
+				index++;
+			}
+		}
+
+		int[] result = new int[index];
+		for (int i = 0; i < result.length; i++) {
+			result[i] = neighbours[i];
+		}
+
+		return result;
+	}
+
+	// ----------------------------------------------------------------------
+
+	public boolean contain(int[] array, int element, int size) {
+		for (int i = 0; i < size; i++) {
+			if (array[i] == element) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	// ----------------------------------------------------------------------
+
+	public int findCentrum() {
+
+		int vertexCount = matrix.length;
+
+		while (vertexCount > 2) {
+
+			int[] toRemove = new int[matrix.length];
 			int index = 0;
-			for (int i = 0; i < array.length; i++) {
-				if ((array[i] == 1) && !(contain(sequence, i, size))) {
-					neighbours[index] = i;
+
+			for (int j = 0; j < matrix.length; j++) {
+				int degree = countVertexDegree(j);
+				if (degree == 1) {
+					toRemove[index] = j;
 					index++;
 				}
 			}
-			
-			int[] result = new int[index];
-			for (int i = 0; i < result.length; i++) {
-				result[i] = neighbours[i];
-			}
-			
-			return result;
-		}
-		
-	// ----------------------------------------------------------------------
-		
-		public boolean contain(int[] array, int element, int size) {
-			for (int i = 0; i < size; i++) {
-				if (array[i] == element) {
-					return true;
+			for (int k = 0; k < index; k++) {
+				if (vertexCount > 2) {
+					removeEdge(toRemove[k]);
+					vertexCount--;
 				}
 			}
-			return false;
 		}
-		
+
+		for (int j = 0; j < matrix.length; j++) {
+			int degree = countVertexDegree(j);
+			if (degree == 1) {
+				return j;
+			}
+		}
+
+		return 0;
+	}
+
 	// ----------------------------------------------------------------------
 
 	public int[][] multiplyMatrix() {
@@ -276,5 +320,5 @@ public class AdjacencyMatrix {
 		}
 		System.out.println("");
 	}
-	
+
 }

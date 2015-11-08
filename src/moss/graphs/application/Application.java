@@ -92,7 +92,7 @@ public class Application {
 
 		fReader.loadData();
 		aMatrix.printMatrix();
-		
+
 		aMatrix.hasCycle();
 
 		aMatrix.removeVertex(0);
@@ -119,16 +119,13 @@ public class Application {
 		for (int i = 0; i < sortedDegrees.length; i++)
 			System.out.print(sortedDegrees[i] + " ");
 		System.out.println();
-		//int[][] multiplyMatrix = aMatrix.multiplyMatrix();
 		
-
 		Integer[] sequence = { 5, 4, 2, 2, 6, 3, 2, 2 };
 
 		isGraphic(sequence);
-		
-		
-		//------------------------------
-		
+
+		// ------------------------------
+
 		String fn = "matrix2.txt";
 		FileReader fr = new FileReader(fn);
 
@@ -139,10 +136,13 @@ public class Application {
 		fr.loadData();
 		matrix.printMatrix();
 		int[] seq = matrix.searchCycle();
-		
+
 		for (int i = 0; i < seq.length; i++)
 			System.out.print(seq[i] + " ");
 		System.out.println();
+
+		int centrum = matrix.findCentrum();
+		System.out.println("Centrum : " + centrum);
 	}
 
 }
