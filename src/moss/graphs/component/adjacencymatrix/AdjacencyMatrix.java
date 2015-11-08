@@ -204,10 +204,18 @@ public class AdjacencyMatrix {
 				break;
 			}
 		}
+		
+		int start = 0;
+		for (int i = 0; i < sequence.length; i++) {
+			if (sequence[i] == sequence[sequence.length-1]) {
+				start = i+1;
+				break;
+			}
+		}
 
-		int[] result = new int[index + 1];
+		int[] result = new int[sequence.length - start];
 		for (int i = 0; i < result.length; i++) {
-			result[i] = sequence[i];
+			result[i] = sequence[i+start];
 		}
 
 		return result;
