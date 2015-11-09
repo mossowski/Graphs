@@ -22,6 +22,14 @@ public class Edge {
 		previous = aPrevious;
 	}
 
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String aName) {
+		name = aName;
+	}
+
 	public Vertex getBeginning() {
 		return beginning;
 	}

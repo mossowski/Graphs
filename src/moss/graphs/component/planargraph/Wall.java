@@ -19,6 +19,14 @@ public class Wall {
 		internalComponents = aInternalComponent;
 	}
 
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String aName) {
+		name = aName;
+	}
+
 	public Edge getExternalComponent() {
 		return externalComponent;
 	}
@@ -26,9 +34,17 @@ public class Wall {
 	public void setExternalComponent(Edge aExternalComponent) {
 		externalComponent = aExternalComponent;
 	}
-	
+
 	public void addInternalComponent(Edge aEdge) {
 		internalComponents.add(aEdge);
+	}
+
+	public ArrayList<Edge> getInternalComponents() {
+		return internalComponents;
+	}
+
+	public void setInternalComponents(ArrayList<Edge> aInternalComponents) {
+		internalComponents = aInternalComponents;
 	}
 
 }

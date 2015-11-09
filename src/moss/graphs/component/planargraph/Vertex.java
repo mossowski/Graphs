@@ -20,6 +20,22 @@ public class Vertex {
 		name = aName;
 	}
 
+	public int getCoordinateX() {
+		return coordinates[0];
+	}
+
+	public int getCoordinateY() {
+		return coordinates[1];
+	}
+
+	public int[] getCoordinates() {
+		return coordinates;
+	}
+
+	public void setCoordinates(int[] aCoordinates) {
+		coordinates = aCoordinates;
+	}
+
 	public Edge getIncidentEdge() {
 		return incidentEdge;
 	}

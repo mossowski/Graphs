@@ -7,7 +7,7 @@ public class PlanarGraph {
 	private ArrayList<Edge> edges;
 	private ArrayList<Vertex> vertexes;
 	private ArrayList<Wall> walls;
-	
+
 	public PlanarGraph(ArrayList<Edge> aEdges, ArrayList<Vertex> aVertexs, ArrayList<Wall> aWalls) {
 		edges = aEdges;
 		vertexes = aVertexs;
@@ -31,13 +31,14 @@ public class PlanarGraph {
 	public void addWall(Wall aWall) {
 		walls.add(aWall);
 	}
-	
+
 	/**
 	 * Return neighbors vertexes to specified vertex
+	 * 
 	 * @param aVertex
 	 * @return
 	 */
-	public ArrayList<Vertex> findNeighborVertexs(Vertex aVertex) {
+	public ArrayList<Vertex> findNeighborVertexes(Vertex aVertex) {
 		ArrayList<Vertex> neighbors = new ArrayList<Vertex>();
 
 		for (Edge currentEdge : edges) {
@@ -47,6 +48,63 @@ public class PlanarGraph {
 			}
 		}
 		return neighbors;
+	}
+
+	/**
+	 * Prints neighbors vertexes
+	 * 
+	 * @param neighbors
+	 */
+	public void printNeighbors(Vertex vertex, ArrayList<Vertex> neighbors) {
+		System.out.print("\nNeighbors " + vertex.getName() + " : ");
+		for (Vertex v : neighbors) {
+			System.out.print(v.getName() + " ");
+		}
+		System.out.println();
+	}
+
+	/**
+	 * Prints planar graph
+	 */
+	public void printGraph() {
+
+		printVertexes();
+		printWalls();
+		printEdges();
+	}
+
+	/**
+	 * Prints vertexes
+	 */
+	public void printVertexes() {
+		System.out.println("Vertex Coordinates IncidentEdge");
+		for (Vertex vertex : vertexes) {
+			System.out.println("  " + vertex.getName() + "     (" + vertex.getCoordinateX() + "," + vertex.getCoordinateY() + ")        " + vertex.getIncidentEdge().getName());
+		}
+		System.out.println();
+	}
+
+	/**
+	 * Prints walls
+	 */
+	public void printWalls() {
+		System.out.println("Wall ExternalComponent InternalComponent");
+		for (Wall wall : walls) {
+			System.out.println(" " + wall.getName() + "       " + wall.getExternalComponent().getName() + "                 " + wall.getInternalComponents().get(0).getName());
+		}
+		System.out.println();
+	}
+
+	/**
+	 * Prints edges
+	 */
+	public void printEdges() {
+		System.out.println("Edge Beginning Twin IncidentWall Next Previous");
+		for (Edge edge : edges) {
+			System.out.println(edge.getName() + "     " + edge.getBeginning().getName() + "      " + edge.getTwin().getName() + "      " + edge.getIncidentWall().getName() + "       "
+					+ edge.getNext().getName() + "    " + edge.getPrevious().getName());
+		}
+		System.out.println();
 	}
 
 }
