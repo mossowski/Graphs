@@ -119,5 +119,9 @@ public class PlanarGraphController {
 		planarGraph.printNeighbors(v2, planarGraph.findNeighborVertexes(v2));
 		planarGraph.printNeighbors(v3, planarGraph.findNeighborVertexes(v3));
 		planarGraph.printNeighbors(v4, planarGraph.findNeighborVertexes(v4));
+
+		// Printing edges belonging to wall
+		planarGraph.printEdges(f1, planarGraph.findEdges(f1));
+		planarGraph.printEdges(f2, planarGraph.findEdges(f2));
 	}
 }
