@@ -51,6 +51,23 @@ public class PlanarGraph {
 	}
 
 	/**
+	 * Return edges belonging to specified wall
+	 * 
+	 * @param aWall
+	 * @return
+	 */
+	public ArrayList<Edge> findEdges(Wall aWall) {
+		ArrayList<Edge> wallEdges = new ArrayList<Edge>();
+
+		for (Edge currentEdge : edges) {
+			if (currentEdge.getIncidentWall() == aWall) {
+				wallEdges.add(currentEdge);
+			}
+		}
+		return wallEdges;
+	}
+
+	/**
 	 * Prints neighbors vertexes
 	 * 
 	 * @param neighbors
@@ -59,6 +76,19 @@ public class PlanarGraph {
 		System.out.print("\nNeighbors " + vertex.getName() + " : ");
 		for (Vertex v : neighbors) {
 			System.out.print(v.getName() + " ");
+		}
+		System.out.println();
+	}
+
+	/**
+	 * Prints edges
+	 * 
+	 * @param neighbors
+	 */
+	public void printEdges(Wall aWall, ArrayList<Edge> aEdges) {
+		System.out.print("\nEdges belonging to  " + aWall.getName() + " : ");
+		for (Edge e : aEdges) {
+			System.out.print(e.getName() + " ");
 		}
 		System.out.println();
 	}
