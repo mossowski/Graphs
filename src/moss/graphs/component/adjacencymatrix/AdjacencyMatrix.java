@@ -243,6 +243,25 @@ public class AdjacencyMatrix {
 
 	// ----------------------------------------------------------------------
 
+	public int findEdge(int[] array) {
+		int[] edges = new int[array.length - 1];
+		int index = 0;
+
+		for (int i = 0; i < array.length; i++) {
+			if (array[i] == 1) {
+				edges[index] = i;
+				index++;
+			}
+		}
+
+		Random random = new Random();
+		int result = edges[random.nextInt(index)];
+
+		return result;
+	}
+
+	// ----------------------------------------------------------------------
+
 	public boolean contain(int[] array, int element, int size) {
 		for (int i = 0; i < size; i++) {
 			if (array[i] == element) {
@@ -302,6 +321,53 @@ public class AdjacencyMatrix {
 		}
 
 		return resultMatrix;
+	}
+
+	// ----------------------------------------------------------------------
+
+	public int[] searchEulerCycle() {
+		int[] heap = new int[matrix.length * (matrix.length - 1)];
+		int heapSize = 0;
+		int[] euler = new int[matrix.length * (matrix.length - 1)];
+		int eulerSize = 0;
+
+		Random random = new Random();
+		int u = random.nextInt(matrix.length);
+		euler[0] = u;
+		eulerSize++;
+
+		do {
+			if (countVertexDegree(u) > 0) {
+				int v = findEdge(matrix[u]);
+				heap[heapSize] = u;
+				heapSize++;
+				removeEdge(u, v);
+				u = v;
+			} else {
+				u = heap[heapSize - 1];
+				heapSize--;
+				euler[eulerSize] = u;
+				eulerSize++;
+			}
+		} while (heapSize > 0);
+
+		int[] result = new int[eulerSize];
+
+		for (int i = 0; i < result.length; i++) {
+			result[i] = euler[i];
+		}
+
+		return result;
+	}
+
+	// ----------------------------------------------------------------------
+
+	public void printEuler(int[] euler) {
+		System.out.println("Euler cycle : ");
+		for (int i = 0; i < euler.length; i++) {
+			System.out.print(euler[i] + " ");
+		}
+		System.out.println("");
 	}
 
 	// ----------------------------------------------------------------------
