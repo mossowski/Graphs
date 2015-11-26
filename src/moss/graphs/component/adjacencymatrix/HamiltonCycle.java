@@ -11,7 +11,7 @@ public class HamiltonCycle {
 		FileReader fReader = new FileReader("matrix.txt");
 		fReader.loadData();
 		matrix.printMatrix();
-		int[] hamiltonCycle = matrix.searchHamiltonCycle();
+		int[] hamiltonCycle = matrix.searchHamiltonCycleRecursive();
 		matrix.printHamiltonCycle(hamiltonCycle);
 	}
 }

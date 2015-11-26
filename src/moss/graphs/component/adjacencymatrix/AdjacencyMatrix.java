@@ -6,11 +6,14 @@ import java.util.Random;
 public class AdjacencyMatrix {
 
 	public static int[][] matrix;
+	public static int[] heap;
+	public static int heapSize = 0;
 
 	// ----------------------------------------------------------------------
 
 	public AdjacencyMatrix(int size) {
 		matrix = new int[size][size];
+		heap = new int[size * size];
 	}
 
 	// ----------------------------------------------------------------------
@@ -326,8 +329,8 @@ public class AdjacencyMatrix {
 	// ----------------------------------------------------------------------
 
 	public int[] searchEulerCycle() {
-		int[] heap = new int[matrix.length * (matrix.length - 1)];
-		int heapSize = 0;
+		int[] theHeap = new int[matrix.length * (matrix.length - 1)];
+		int theHeapSize = 0;
 		int[] euler = new int[matrix.length * (matrix.length - 1)];
 		int eulerSize = 0;
 
@@ -339,17 +342,17 @@ public class AdjacencyMatrix {
 		do {
 			if (countVertexDegree(u) > 0) {
 				int v = findEdge(matrix[u]);
-				heap[heapSize] = u;
-				heapSize++;
+				theHeap[theHeapSize] = u;
+				theHeapSize++;
 				removeEdge(u, v);
 				u = v;
 			} else {
-				u = heap[heapSize - 1];
-				heapSize--;
+				u = theHeap[theHeapSize - 1];
+				theHeapSize--;
 				euler[eulerSize] = u;
 				eulerSize++;
 			}
-		} while (heapSize > 0);
+		} while (theHeapSize > 0);
 
 		int[] result = new int[eulerSize];
 
@@ -359,24 +362,24 @@ public class AdjacencyMatrix {
 
 		return result;
 	}
-	
+
 	// ----------------------------------------------------------------------
-	
+
 	public int[] searchHamiltonCycle() {
-		int[] heap = new int[matrix.length];
-		int heapSize = 0;
+		int[] theHeap = new int[matrix.length];
+		int theHeapSize = 0;
 
 		int v = 0;
-		heap[0] = v;
-		heapSize++;
+		theHeap[0] = v;
+		theHeapSize++;
 		int removed = -1;
 
 		do {
-			int u = heap[heapSize - 1];
+			int u = theHeap[theHeapSize - 1];
 			// finds neighbor vertexes to u
-			int[] neighbors = findNeighbours(matrix[u], heap, heapSize);
+			int[] neighbors = findNeighbours(matrix[u], theHeap, theHeapSize);
 			int w = -1;
-			
+
 			// picks vertex greater than removed
 			for (int i = 0; i < neighbors.length; i++) {
 				if (neighbors[i] > removed) {
@@ -384,23 +387,41 @@ public class AdjacencyMatrix {
 					break;
 				}
 			}
-			
+
 			// adds w to heap
 			if (w != -1) {
-				heap[heapSize] = w;
-				heapSize++;
+				theHeap[theHeapSize] = w;
+				theHeapSize++;
 
 				// checks if it's Hamilton Cycle
-				if (isHamiltonCycle(heap, heapSize)) {
+				if (isHamiltonCycle(theHeap, theHeapSize)) {
 					break;
 				}
-			} 
+			}
 			// removes u from heap
 			else {
-				heapSize--;
+				theHeapSize--;
 				removed = u;
 			}
-		} while (heapSize > 0);
+		} while (theHeapSize > 0);
+
+		int[] result = new int[theHeapSize];
+
+		for (int i = 0; i < result.length; i++) {
+			result[i] = theHeap[i];
+		}
+
+		return result;
+	}
+
+	// ----------------------------------------------------------------------
+
+	public int[] searchHamiltonCycleRecursive() {
+		int v = 0;
+		heap[0] = v;
+		heapSize++;
+
+		hamiltonCycle(-1);
 
 		int[] result = new int[heapSize];
 
@@ -410,13 +431,55 @@ public class AdjacencyMatrix {
 
 		return result;
 	}
-	
+
 	// ----------------------------------------------------------------------
-	
+
+	public int hamiltonCycle(int aRemoved) {
+		int u = heap[heapSize - 1];
+		int theRemoved = -1;
+
+		// finds neighbor vertexes to u
+		int[] neighbors = findNeighbours(matrix[u], heap, heapSize);
+		int w = -1;
+
+		// picks vertex greater than removed
+		for (int i = 0; i < neighbors.length; i++) {
+			if (neighbors[i] > aRemoved) {
+				w = neighbors[i];
+				break;
+			}
+		}
+
+		// adds w to heap
+		if (w != -1) {
+			heap[heapSize] = w;
+			heapSize++;
+
+			// checks if it's Hamilton Cycle
+			if (isHamiltonCycle(heap, heapSize)) {
+				return 1;
+			}
+		}
+		// removes u from heap
+		else {
+			heapSize--;
+			theRemoved = u;
+		}
+
+		if (heapSize <= 0) {
+			return 0;
+		}
+
+		hamiltonCycle(theRemoved);
+		return 0;
+	}
+
+	// ----------------------------------------------------------------------
+
 	public boolean isHamiltonCycle(int[] cycle, int cycleSize) {
-		
+
 		for (int i = 0; i < cycleSize; i++)
-			for (int j = i + 1; j < cycle.length; j++) {
+			for (int j = i + 1; j < cycleSize; j++) {
 				if (cycle[i] == cycle[j]) {
 					return false;
 				}
