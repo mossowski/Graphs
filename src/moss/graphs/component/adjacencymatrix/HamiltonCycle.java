@@ -4,14 +4,14 @@ import java.io.FileNotFoundException;
 
 import moss.graphs.utils.FileReader;
 
-public class EulerCycle {
+public class HamiltonCycle {
 
-	public EulerCycle() throws FileNotFoundException {
+	public HamiltonCycle() throws FileNotFoundException {
 		AdjacencyMatrix matrix = new AdjacencyMatrix(6);
 		FileReader fReader = new FileReader("matrix.txt");
 		fReader.loadData();
 		matrix.printMatrix();
-		int[] eulerCycle = matrix.searchEulerCycle();
-		matrix.printEulerCycle(eulerCycle);
+		int[] hamiltonCycle = matrix.searchHamiltonCycle();
+		matrix.printHamiltonCycle(hamiltonCycle);
 	}
 }

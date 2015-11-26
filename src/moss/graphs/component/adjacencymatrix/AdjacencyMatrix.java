@@ -359,10 +359,77 @@ public class AdjacencyMatrix {
 
 		return result;
 	}
+	
+	// ----------------------------------------------------------------------
+	
+	public int[] searchHamiltonCycle() {
+		int[] heap = new int[matrix.length];
+		int heapSize = 0;
+
+		int v = 0;
+		heap[0] = v;
+		heapSize++;
+		int removed = -1;
+
+		do {
+			int u = heap[heapSize - 1];
+			// finds neighbor vertexes to u
+			int[] neighbors = findNeighbours(matrix[u], heap, heapSize);
+			int w = -1;
+			
+			// picks vertex greater than removed
+			for (int i = 0; i < neighbors.length; i++) {
+				if (neighbors[i] > removed) {
+					w = neighbors[i];
+					break;
+				}
+			}
+			
+			// adds w to heap
+			if (w != -1) {
+				heap[heapSize] = w;
+				heapSize++;
+
+				// checks if it's Hamilton Cycle
+				if (isHamiltonCycle(heap, heapSize)) {
+					break;
+				}
+			} 
+			// removes u from heap
+			else {
+				heapSize--;
+				removed = u;
+			}
+		} while (heapSize > 0);
+
+		int[] result = new int[heapSize];
+
+		for (int i = 0; i < result.length; i++) {
+			result[i] = heap[i];
+		}
+
+		return result;
+	}
+	
+	// ----------------------------------------------------------------------
+	
+	public boolean isHamiltonCycle(int[] cycle, int cycleSize) {
+		
+		for (int i = 0; i < cycleSize; i++)
+			for (int j = i + 1; j < cycle.length; j++) {
+				if (cycle[i] == cycle[j]) {
+					return false;
+				}
+			}
+		if (cycleSize == matrix.length) {
+			return true;
+		}
+		return false;
+	}
 
 	// ----------------------------------------------------------------------
 
-	public void printEuler(int[] euler) {
+	public void printEulerCycle(int[] euler) {
 		System.out.println("Euler cycle : ");
 		for (int i = 0; i < euler.length; i++) {
 			System.out.print(euler[i] + " ");
@@ -372,7 +439,18 @@ public class AdjacencyMatrix {
 
 	// ----------------------------------------------------------------------
 
+	public void printHamiltonCycle(int[] hamilton) {
+		System.out.println("Hamilton cycle : ");
+		for (int i = 0; i < hamilton.length; i++) {
+			System.out.print(hamilton[i] + " ");
+		}
+		System.out.println("");
+	}
+
+	// ----------------------------------------------------------------------
+
 	public void printMatrix() {
+		System.out.println("");
 		for (int i = 0; i < matrix.length; i++) {
 			for (int j = 0; j < matrix[i].length; j++) {
 				System.out.print(matrix[i][j] + " ");
