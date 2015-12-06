@@ -2,14 +2,16 @@ package moss.graphs.application;
 
 import java.io.FileNotFoundException;
 
-import moss.graphs.component.adjacencymatrix.EulerCycle;
-import moss.graphs.component.adjacencymatrix.HamiltonCycle;
+import moss.graphs.component.eulercycle.EulerCycle;
+import moss.graphs.component.hamiltoncycle.HamiltonCycle;
+import moss.graphs.component.weightedgraph.WeightedGraph;
 
 public class Application {
 
 	public static void main(String[] args) throws FileNotFoundException {
 		//EulerCycle eulerCycle = new EulerCycle();
-		HamiltonCycle hamiltonCycle = new HamiltonCycle();
+		//HamiltonCycle hamiltonCycle = new HamiltonCycle();
+		WeightedGraph weightedGraph = new WeightedGraph();
 	}
 
 }

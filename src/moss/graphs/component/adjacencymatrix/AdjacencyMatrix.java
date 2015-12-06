@@ -6,14 +6,15 @@ import java.util.Random;
 public class AdjacencyMatrix {
 
 	public static int[][] matrix;
+	public static int matrixSize;
 	public static int[] heap;
 	public static int heapSize = 0;
 
 	// ----------------------------------------------------------------------
 
-	public AdjacencyMatrix(int size) {
-		matrix = new int[size][size];
-		heap = new int[size * size];
+	public AdjacencyMatrix() {
+		matrix = new int[matrixSize][matrixSize];
+		heap = new int[matrixSize * matrixSize];
 	}
 
 	// ----------------------------------------------------------------------

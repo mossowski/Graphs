@@ -10,12 +10,14 @@ public class FileReader {
 
 	private Scanner fileScanner;
 	private Scanner sizeScanner;
+	private File file;
 
 	// ----------------------------------------------------------------------
 
 	public FileReader(String fileName) throws FileNotFoundException {
-		fileScanner = new Scanner(new File(fileName));
-		sizeScanner = new Scanner(new File(fileName));
+		file = new File(fileName);
+		fileScanner = new Scanner(file);
+		sizeScanner = new Scanner(file);
 	}
 
 	// ----------------------------------------------------------------------
@@ -27,52 +29,55 @@ public class FileReader {
 	 */
 	public void loadData() {
 
-		int i = 0;
+		int ySize = 0;
+		fileScanner.nextLine();
+
 		while (fileScanner.hasNextLine()) {
 			String line = fileScanner.nextLine();
 			Scanner lineScanner = new Scanner(line);
 			lineScanner.useDelimiter(" ");
-			int j = 0;
+			int xSize = 0;
+
 			while (lineScanner.hasNextInt()) {
-				AdjacencyMatrix.matrix[i][j] = lineScanner.nextInt();
-				j++;
+					if (AdjacencyMatrix.matrixSize == xSize) {
+						System.out.println("Wrong matrix size!");
+						System.exit(0);
+					}
+
+					int nextInt = lineScanner.nextInt();
+					if (nextInt >= 0)
+						AdjacencyMatrix.matrix[ySize][xSize] = nextInt;
+					else {
+						System.out.println("Number cannot be less than zero!");
+						System.exit(0);
+					}
+					xSize++;
 			}
+
+			ySize++;
 			lineScanner.close();
-			i++;
 		}
+
 		fileScanner.close();
 
-	}
-
-	// ----------------------------------------------------------------------
-
-	public int checkSize() {
-
-		int i = 0;
-		int checkX = 0;
-		int checkY = 0;
-
-		while (sizeScanner.hasNextLine()) {
-			String line = sizeScanner.nextLine();
-			Scanner lineScanner = new Scanner(line);
-			lineScanner.useDelimiter(" ");
-			int j = 0;
-			while (lineScanner.hasNextInt()) {
-				lineScanner.nextInt();
-				j++;
-			}
-			checkY = j;
-			lineScanner.close();
-			i++;
-		}
-		checkX = i;
-		sizeScanner.close();
-
-		if (checkX != checkY) {
+		if (AdjacencyMatrix.matrixSize != ySize) {
 			System.out.println("Wrong matrix size!");
 			System.exit(0);
 		}
-
-		return checkX;
 	}
+	
+	// ----------------------------------------------------------------------
+
+	/**
+	 * Loads file data to matrix
+	 * 
+	 * @param dataType
+	 */
+	public void loadDataSize() {
+		int size = sizeScanner.nextInt();
+		AdjacencyMatrix.matrixSize = size;
+			
+		sizeScanner.close();
+	}
+
 }
