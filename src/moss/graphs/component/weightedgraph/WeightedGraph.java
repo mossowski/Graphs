@@ -13,6 +13,12 @@ public class WeightedGraph {
 		AdjacencyMatrix matrix = new AdjacencyMatrix();
 		fReader.loadData();
 		matrix.printMatrix();
+
+		for (int i = 0; i < AdjacencyMatrix.matrixSize; i++) {
+			matrix.countDistance(i);
+		}
+
+		matrix.printDistanceMatrix();
 	}
 
 }

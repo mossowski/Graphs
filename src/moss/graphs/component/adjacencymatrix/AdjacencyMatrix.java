@@ -1,5 +1,6 @@
 package moss.graphs.component.adjacencymatrix;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
@@ -7,13 +8,17 @@ public class AdjacencyMatrix {
 
 	public static int[][] matrix;
 	public static int matrixSize;
+
 	public static int[] heap;
 	public static int heapSize = 0;
+
+	public static int[][] distanceMatrix;
 
 	// ----------------------------------------------------------------------
 
 	public AdjacencyMatrix() {
 		matrix = new int[matrixSize][matrixSize];
+		distanceMatrix = new int[matrixSize][matrixSize];
 		heap = new int[matrixSize * matrixSize];
 	}
 
@@ -493,6 +498,74 @@ public class AdjacencyMatrix {
 
 	// ----------------------------------------------------------------------
 
+	public void countDistance(int vertex) {
+
+		for (int i = 0; i < matrixSize; i++) {
+			if (i == vertex || matrix[vertex][i] != 0) {
+				distanceMatrix[vertex][i] = matrix[vertex][i];
+			} else {
+				distanceMatrix[vertex][i] = 99;
+			}
+		}
+
+		ArrayList<Vertex> U = addElements(vertex);
+
+		while (U.size() > 0) {
+			Vertex uVertex = minimumWage(U);
+			int u = uVertex.getIndex();
+			U.remove(uVertex);
+
+			for (Vertex currentVertex : U) {
+				int v = currentVertex.getIndex();
+				int vDistance = distanceMatrix[vertex][v];
+				int uDistance = distanceMatrix[vertex][u];
+
+				int wage = 99;
+				if (matrix[u][v] != 0) {
+					wage = matrix[u][v];
+				}
+				distanceMatrix[vertex][v] = Math.min(vDistance, uDistance + wage);
+				currentVertex.setValue(distanceMatrix[vertex][v]);
+			}
+		}
+
+	}
+
+	// ----------------------------------------------------------------------
+
+	public ArrayList<Vertex> addElements(int vertex) {
+		ArrayList<Vertex> result = new ArrayList<Vertex>();
+
+		for (int i = 0; i < matrixSize; i++) {
+			if (i != vertex) {
+				Vertex v = new Vertex(i, distanceMatrix[vertex][i]);
+				result.add(v);
+			}
+		}
+
+		return result;
+	}
+
+	// ----------------------------------------------------------------------
+
+	public Vertex minimumWage(ArrayList<Vertex> vertexes) {
+		int minimum = vertexes.get(0).getValue();
+		Vertex result = vertexes.get(0);
+
+		for (Vertex vertex : vertexes) {
+			int vertexWage = vertex.getValue();
+
+			if (vertexWage < minimum) {
+				minimum = vertex.getValue();
+				result = vertex;
+			}
+		}
+
+		return result;
+	}
+
+	// ----------------------------------------------------------------------
+
 	public void printEulerCycle(int[] euler) {
 		System.out.println("Euler cycle : ");
 		for (int i = 0; i < euler.length; i++) {
@@ -518,6 +591,19 @@ public class AdjacencyMatrix {
 		for (int i = 0; i < matrix.length; i++) {
 			for (int j = 0; j < matrix[i].length; j++) {
 				System.out.print(matrix[i][j] + " ");
+			}
+			System.out.println("");
+		}
+		System.out.println("");
+	}
+
+	// ----------------------------------------------------------------------
+
+	public void printDistanceMatrix() {
+		System.out.println("");
+		for (int i = 0; i < distanceMatrix.length; i++) {
+			for (int j = 0; j < distanceMatrix[i].length; j++) {
+				System.out.print(distanceMatrix[i][j] + " ");
 			}
 			System.out.println("");
 		}
