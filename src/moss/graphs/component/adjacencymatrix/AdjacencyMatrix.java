@@ -8,6 +8,9 @@ public class AdjacencyMatrix {
 
 	public static int[][] matrix;
 	public static int matrixSize;
+	public static int[] vertexesDegrees;
+	public static int[] vertexesColors;
+	public static int[] vertexesSaturations;
 
 	public static int[] heap;
 	public static int heapSize = 0;
@@ -18,8 +21,23 @@ public class AdjacencyMatrix {
 
 	public AdjacencyMatrix() {
 		matrix = new int[matrixSize][matrixSize];
+		vertexesDegrees = new int[matrixSize];
+		vertexesColors = new int[matrixSize];
+		vertexesSaturations = new int[matrixSize];
 		distanceMatrix = new int[matrixSize][matrixSize];
 		heap = new int[matrixSize * matrixSize];
+	}
+
+	// ----------------------------------------------------------------------
+
+	public void countDegrees() {
+		for (int i = 0; i < matrix.length; i++) {
+			int degree = 0;
+			for (int j = 0; j < matrix.length; j++) {
+				degree += degree + matrix[i][j];
+			}
+			vertexesDegrees[i] = degree;
+		}
 	}
 
 	// ----------------------------------------------------------------------
@@ -566,6 +584,104 @@ public class AdjacencyMatrix {
 
 	// ----------------------------------------------------------------------
 
+	public void saturatedLargestFirst() {
+
+		// no color for each vector
+		for (int i = 0; i < vertexesColors.length; i++) {
+			vertexesColors[i] = -1;
+		}
+
+		int numberOfColored = 0;
+
+		while (numberOfColored != matrix.length) {
+			int coloredVertex = findVertex();
+			// color current vertex
+			vertexesColors[coloredVertex] = findColor(coloredVertex);
+			numberOfColored++;
+		}
+	}
+
+	// ----------------------------------------------------------------------
+
+	public int findVertex() {
+
+		countSaturations();
+
+		int maxSaturation = 0;
+		int maxDegree = 0;
+		int vertex = 0;
+
+		for (int i = 0; i < matrix.length; i++) {
+			// if vertex is not colored and it has highest saturation and degree
+			if (vertexesColors[i] == -1 && vertexesSaturations[i] >= maxSaturation && vertexesDegrees[i] >= maxDegree) {
+				vertex = i;
+				maxSaturation = vertexesSaturations[i];
+				maxDegree = vertexesDegrees[i];
+			}
+		}
+		return vertex;
+	}
+
+	// ----------------------------------------------------------------------
+
+	public int findColor(int vertex) {
+
+		int colors[] = new int[matrix.length];
+		int color = 0;
+
+		for (int i = 0; i < matrix.length; i++) {
+			colors[i] = 0;
+		}
+
+		for (int i = 0; i < matrix.length; i++) {
+			// if there is edge and it is colored
+			if (matrix[vertex][i] == 1 && vertexesColors[i] != -1) {
+				colors[vertexesColors[i]]++;
+			}
+		}
+
+		for (int i = 0; i < matrix.length; i++) {
+			if (colors[i] == 0) {
+				return i;
+			}
+		}
+
+		return color;
+	}
+
+	// ----------------------------------------------------------------------
+
+	public void countSaturations() {
+
+		for (int i = 0; i < matrix.length; i++) {
+
+			int colors[] = new int[matrix.length];
+
+			for (int j = 0; j < matrix.length; j++) {
+				colors[j] = 0;
+			}
+
+			for (int j = 0; j < matrix.length; j++) {
+				// if there is edge and it is colored
+				if (matrix[i][j] == 1 && vertexesColors[j] != -1) {
+					colors[vertexesColors[j]]++;
+				}
+			}
+
+			int saturation = 0;
+
+			// count number of different colors
+			for (int j = 0; j < matrix.length; j++) {
+				if (colors[j] != 0)
+					saturation++;
+			}
+
+			vertexesSaturations[i] = saturation;
+		}
+	}
+
+	// ----------------------------------------------------------------------
+
 	public void printEulerCycle(int[] euler) {
 		System.out.println("Euler cycle : ");
 		for (int i = 0; i < euler.length; i++) {
@@ -619,6 +735,16 @@ public class AdjacencyMatrix {
 				System.out.print(aMatrix[i][j] + " ");
 			}
 			System.out.println("");
+		}
+		System.out.println("");
+	}
+	
+	// ----------------------------------------------------------------------
+
+	public void printVertexesColors() {
+		System.out.println("\n\nVertexes Colors");
+		for (int i = 0; i < vertexesColors.length; i++) {
+			System.out.println("vertex : " + i + " color : " + vertexesColors[i]);
 		}
 		System.out.println("");
 	}
