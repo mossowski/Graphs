@@ -34,7 +34,7 @@ public class AdjacencyMatrix {
 		for (int i = 0; i < matrix.length; i++) {
 			int degree = 0;
 			for (int j = 0; j < matrix.length; j++) {
-				degree += degree + matrix[i][j];
+				degree += matrix[i][j];
 			}
 			vertexesDegrees[i] = degree;
 		}
@@ -607,18 +607,19 @@ public class AdjacencyMatrix {
 
 		countSaturations();
 
-		int maxSaturation = 0;
-		int maxDegree = 0;
+		int maxSaturation = -1;
+		int maxDegree = -1;
 		int vertex = 0;
 
 		for (int i = 0; i < matrix.length; i++) {
 			// if vertex is not colored and it has highest saturation and degree
-			if (vertexesColors[i] == -1 && vertexesSaturations[i] >= maxSaturation && vertexesDegrees[i] >= maxDegree) {
+			if (vertexesColors[i] == -1 && vertexesSaturations[i] >= maxSaturation && vertexesDegrees[i] > maxDegree) {
 				vertex = i;
 				maxSaturation = vertexesSaturations[i];
 				maxDegree = vertexesDegrees[i];
 			}
 		}
+		//System.out.println(vertex);
 		return vertex;
 	}
 
@@ -629,9 +630,7 @@ public class AdjacencyMatrix {
 		int colors[] = new int[matrix.length];
 		int color = 0;
 
-		for (int i = 0; i < matrix.length; i++) {
-			colors[i] = 0;
-		}
+		colors = clearArray(colors);
 
 		for (int i = 0; i < matrix.length; i++) {
 			// if there is edge and it is colored
@@ -657,10 +656,8 @@ public class AdjacencyMatrix {
 
 			int colors[] = new int[matrix.length];
 
-			for (int j = 0; j < matrix.length; j++) {
-				colors[j] = 0;
-			}
-
+			colors = clearArray(colors);
+			
 			for (int j = 0; j < matrix.length; j++) {
 				// if there is edge and it is colored
 				if (matrix[i][j] == 1 && vertexesColors[j] != -1) {
@@ -678,6 +675,18 @@ public class AdjacencyMatrix {
 
 			vertexesSaturations[i] = saturation;
 		}
+	}
+	
+	// ----------------------------------------------------------------------
+	
+	public int[] clearArray(int array[]) {
+		int result[] = new int[array.length];
+		
+		for (int i = 0; i < result.length; i++) {
+			result[i] = 0;
+		}
+		
+		return result;
 	}
 
 	// ----------------------------------------------------------------------

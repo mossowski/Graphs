@@ -12,6 +12,7 @@ public class GraphColoring {
 		fReader.loadDataSize();
 		AdjacencyMatrix matrix = new AdjacencyMatrix();
 		fReader.loadData();
+		matrix.countDegrees();
 		matrix.printMatrix();
 		matrix.saturatedLargestFirst();
 		matrix.printVertexesColors();
