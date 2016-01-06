@@ -7,8 +7,8 @@ import moss.graphs.utils.FileReader;
 
 public class GraphColoring {
 
-	public GraphColoring() throws FileNotFoundException {
-		FileReader fReader = new FileReader("graphcoloring1.txt");
+	public GraphColoring(String fileName) throws FileNotFoundException {
+		FileReader fReader = new FileReader(fileName);
 		fReader.loadDataSize();
 		AdjacencyMatrix matrix = new AdjacencyMatrix();
 		fReader.loadData();
@@ -17,4 +17,5 @@ public class GraphColoring {
 		matrix.saturatedLargestFirst();
 		matrix.printVertexesColors();
 	}
+
 }

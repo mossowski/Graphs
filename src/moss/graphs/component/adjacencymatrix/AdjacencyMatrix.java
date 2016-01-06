@@ -619,7 +619,7 @@ public class AdjacencyMatrix {
 				maxDegree = vertexesDegrees[i];
 			}
 		}
-		//System.out.println(vertex);
+		// System.out.println(vertex);
 		return vertex;
 	}
 
@@ -657,7 +657,7 @@ public class AdjacencyMatrix {
 			int colors[] = new int[matrix.length];
 
 			colors = clearArray(colors);
-			
+
 			for (int j = 0; j < matrix.length; j++) {
 				// if there is edge and it is colored
 				if (matrix[i][j] == 1 && vertexesColors[j] != -1) {
@@ -676,16 +676,16 @@ public class AdjacencyMatrix {
 			vertexesSaturations[i] = saturation;
 		}
 	}
-	
+
 	// ----------------------------------------------------------------------
-	
+
 	public int[] clearArray(int array[]) {
 		int result[] = new int[array.length];
-		
+
 		for (int i = 0; i < result.length; i++) {
 			result[i] = 0;
 		}
-		
+
 		return result;
 	}
 
@@ -747,7 +747,7 @@ public class AdjacencyMatrix {
 		}
 		System.out.println("");
 	}
-	
+
 	// ----------------------------------------------------------------------
 
 	public void printVertexesColors() {

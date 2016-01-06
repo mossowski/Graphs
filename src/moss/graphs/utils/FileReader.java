@@ -39,19 +39,19 @@ public class FileReader {
 			int xSize = 0;
 
 			while (lineScanner.hasNextInt()) {
-					if (AdjacencyMatrix.matrixSize == xSize) {
-						System.out.println("Wrong matrix size!");
-						System.exit(0);
-					}
+				if (AdjacencyMatrix.matrixSize == xSize) {
+					System.out.println("Wrong matrix size!");
+					System.exit(0);
+				}
 
-					int nextInt = lineScanner.nextInt();
-					if (nextInt >= 0)
-						AdjacencyMatrix.matrix[ySize][xSize] = nextInt;
-					else {
-						System.out.println("Number cannot be less than zero!");
-						System.exit(0);
-					}
-					xSize++;
+				int nextInt = lineScanner.nextInt();
+				if (nextInt >= 0)
+					AdjacencyMatrix.matrix[ySize][xSize] = nextInt;
+				else {
+					System.out.println("Number cannot be less than zero!");
+					System.exit(0);
+				}
+				xSize++;
 			}
 
 			ySize++;
@@ -65,7 +65,7 @@ public class FileReader {
 			System.exit(0);
 		}
 	}
-	
+
 	// ----------------------------------------------------------------------
 
 	/**
@@ -76,7 +76,7 @@ public class FileReader {
 	public void loadDataSize() {
 		int size = sizeScanner.nextInt();
 		AdjacencyMatrix.matrixSize = size;
-			
+
 		sizeScanner.close();
 	}
 
