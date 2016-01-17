@@ -7,8 +7,8 @@ import moss.graphs.utils.FileReader;
 
 public class WeightedGraph {
 
-	public WeightedGraph() throws FileNotFoundException {
-		FileReader fReader = new FileReader("weightedgraph.txt");
+	public WeightedGraph(String fileName) throws FileNotFoundException {
+		FileReader fReader = new FileReader(fileName);
 		fReader.loadDataSize();
 		AdjacencyMatrix matrix = new AdjacencyMatrix();
 		fReader.loadData();

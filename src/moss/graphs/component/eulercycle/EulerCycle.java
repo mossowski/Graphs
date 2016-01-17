@@ -7,8 +7,8 @@ import moss.graphs.utils.FileReader;
 
 public class EulerCycle {
 
-	public EulerCycle() throws FileNotFoundException {
-		FileReader fReader = new FileReader("matrix.txt");
+	public EulerCycle(String fileName) throws FileNotFoundException {
+		FileReader fReader = new FileReader(fileName);
 		fReader.loadDataSize();
 		AdjacencyMatrix matrix = new AdjacencyMatrix();
 		fReader.loadData();

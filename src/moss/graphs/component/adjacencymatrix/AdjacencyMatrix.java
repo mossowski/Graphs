@@ -383,13 +383,18 @@ public class AdjacencyMatrix {
 		for (int i = 0; i < result.length; i++) {
 			result[i] = euler[i];
 		}
+		
+		if (result[0] != result[result.length - 1]) {
+			System.out.println("Brak cyklu eulera!");
+			System.exit(0);
+		}
 
 		return result;
 	}
 
 	// ----------------------------------------------------------------------
 
-	public int[] searchHamiltonCycle() {
+	/*public int[] searchHamiltonCycle() {
 		int[] theHeap = new int[matrix.length];
 		int theHeapSize = 0;
 
@@ -436,7 +441,7 @@ public class AdjacencyMatrix {
 		}
 
 		return result;
-	}
+	}*/
 
 	// ----------------------------------------------------------------------
 
@@ -447,11 +452,12 @@ public class AdjacencyMatrix {
 
 		hamiltonCycle(-1);
 
-		int[] result = new int[heapSize];
+		int[] result = new int[heapSize+1];
 
-		for (int i = 0; i < result.length; i++) {
+		for (int i = 0; i < heapSize; i++) {
 			result[i] = heap[i];
 		}
+		result[result.length - 1] = result[0];
 
 		return result;
 	}
@@ -478,23 +484,23 @@ public class AdjacencyMatrix {
 		if (w != -1) {
 			heap[heapSize] = w;
 			heapSize++;
-
-			// checks if it's Hamilton Cycle
-			if (isHamiltonCycle(heap, heapSize)) {
-				return 1;
-			}
 		}
 		// removes u from heap
 		else {
-			heapSize--;
 			theRemoved = u;
+			heapSize--;
 		}
 
 		if (heapSize <= 0) {
+			System.out.println("Brak cyklu!");
 			return 0;
 		}
-
-		hamiltonCycle(theRemoved);
+		else if (heapSize != matrix.length) {
+			hamiltonCycle(theRemoved);
+		}
+		else {
+			return 1;
+		}
 		return 0;
 	}
 
